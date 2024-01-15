@@ -1,0 +1,126 @@
+[
+    {
+        "id": "fba9ad2327681afb",
+        "type": "tab",
+        "label": "Flow 1",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "eb0df83850115fdb",
+        "type": "mqtt-broker",
+        "name": "broker mosquitto",
+        "broker": "hivemq",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "02c374b76fc670e6",
+        "type": "mqtt out",
+        "z": "fba9ad2327681afb",
+        "name": "",
+        "topic": "temperatura",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "eb0df83850115fdb",
+        "x": 330,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "0cb4d11503930bb5",
+        "type": "mqtt in",
+        "z": "fba9ad2327681afb",
+        "name": "",
+        "topic": "temperatura",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "eb0df83850115fdb",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 590,
+        "y": 100,
+        "wires": [
+            [
+                "9b67db694ad3f73e"
+            ]
+        ]
+    },
+    {
+        "id": "04417c66b0e8e612",
+        "type": "inject",
+        "z": "fba9ad2327681afb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "4",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "18",
+        "payloadType": "num",
+        "x": 90,
+        "y": 100,
+        "wires": [
+            [
+                "02c374b76fc670e6"
+            ]
+        ]
+    },
+    {
+        "id": "9b67db694ad3f73e",
+        "type": "debug",
+        "z": "fba9ad2327681afb",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 800,
+        "y": 100,
+        "wires": []
+    }
+]
