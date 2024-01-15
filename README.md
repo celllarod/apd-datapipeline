@@ -1,4 +1,4 @@
-
+# Exportar datos a ElasticSearch usando KSQLDB
 - Desde ksql:
 ```
 > sudo docker exec ksqldb-server /bin/bash
@@ -8,15 +8,14 @@
 ```
 show topics;
 ```
-- Crear STREAM
+- Crear STREAM que se exportará a ElasticSearch
 
 ``` [source,sql]
 CREATE STREAM PRUEBA (COL1 INT) WITH (KAFKA_TOPIC='temperatura', PARTITIONS=1, VALUE_FORMAT='JSON')
 ```
 - Ver streams: ```show streams;```
 
-- Crear connector para enviar stream a ElasticSearch
-* PARA ID automatico: key.ignore='true', sino: false.
+- Crear connector para enviar stream a ElasticSearch (Para ID automatico: key.ignore='true', sino: false)
 ```
 CREATE SINK CONNECTOR SINK_ELASTIC_PRUEBA WITH (
   'connector.class'         = 'io.confluent.connect.elasticsearch.ElasticsearchSinkConnector',
@@ -30,9 +29,12 @@ CREATE SINK CONNECTOR SINK_ELASTIC_PRUEBA WITH (
   'schema.ignore'           = 'true'
 );
 ```
-- Ver estado (debe ser 1/1) --> ```show connectors;```
+- Ver estado (debe ser 1/1):
+ ```
+ show connectors;
+ ```
 ``` 
-DESCRIBE CONNECTOR SINK_ELASTIC_PRUEBA
+DESCRIBE CONNECTOR SINK_ELASTIC_PRUEBA;
 ```
 
 
@@ -50,8 +52,27 @@ DROP CONNECTOR SINK_ELASTIC_PRUEBA;
 ```
 docker compose exec elasticsearch curl -s http://localhost:9200/PRUEBA/_search -H 'content-type: application/json' -d '{ "size": 42  }' | jq -c '.hits.hits[]'
 ```
+
+# Representar datos en Kibana, ElasticSearch
 - Crear index
 - Kivana>Management>Dev Tools:
 ```
 GET temperatura/_search
+```
+
+# Referencias
+- Exportar datos ElasticSearch:
+
+https://www.youtube.com/watch?v=Cq-2eGxOCc8
+
+https://github.com/confluentinc/demo-scene/blob/master/kafka-to-elasticsearch/README.adoc
+
+https://docs.confluent.io/kafka-connectors/elasticsearch/current/overview.html
+
+# Otros
+### Guest Additions
+```
+sudo apt install gcc make perl
+cd /media/<user>/VBox_GA...
+sudo ./VBoxLinuxAdditions.run
 ```
