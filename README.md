@@ -10,10 +10,13 @@ show topics;
 ```
 - Crear STREAM que se exportará a ElasticSearch
 
-``` [source,sql]
-CREATE STREAM PRUEBA (COL1 INT) WITH (KAFKA_TOPIC='temperatura', PARTITIONS=10, VALUE_FORMAT='JSON')
+``` 
+CREATE STREAM PRUEBA (COL1 INT) WITH (KAFKA_TOPIC='temperatura', PARTITIONS=10, VALUE_FORMAT='JSON');
 ```
-- Ver streams: ```show streams;```
+- Ver streams:
+```
+show streams;
+```
 
 - Crear connector para enviar stream a ElasticSearch (Para ID automatico: key.ignore='true', sino: false)
 ```
