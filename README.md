@@ -87,6 +87,11 @@ CREATE SINK CONNECTOR SINK_ELASTIC_PRUEBA WITH (
   'schema.ignore'           = 'true'
 );
 ```
+**Nota:**
+Para ponder usar ```Elasticsearch Connector``` será muy importante tenerlo instalado y configurado en el entorno. Esto se realiza de forma automática en el docker-compose, en la creación del contenedor ```connect```:
+```sh
+confluent-hub install --no-prompt confluentinc/kafka-connect-elasticsearch:11.0.1
+```
 - Ver estado (debe ser 1/1):
  ```
  show connectors;
