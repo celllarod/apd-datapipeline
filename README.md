@@ -1,8 +1,8 @@
 # Exportar datos a ElasticSearch usando KSQLDB
 - Desde ksql:
 ```
-> sudo docker exec -it ksqldb-server /bin/bash
-> ksql
+sudo docker exec -it ksqldb-server /bin/bash
+ksql
 ```
 - Ver topics
 ```
