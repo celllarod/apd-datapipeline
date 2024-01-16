@@ -1,7 +1,7 @@
 # Exportar datos a ElasticSearch usando KSQLDB
 - Desde ksql:
 ```
-> sudo docker exec ksqldb-server /bin/bash
+> sudo docker exec -it ksqldb-server /bin/bash
 > ksql
 ```
 - Ver topics
@@ -11,7 +11,7 @@ show topics;
 - Crear STREAM que se exportará a ElasticSearch
 
 ``` [source,sql]
-CREATE STREAM PRUEBA (COL1 INT) WITH (KAFKA_TOPIC='temperatura', PARTITIONS=1, VALUE_FORMAT='JSON')
+CREATE STREAM PRUEBA (COL1 INT) WITH (KAFKA_TOPIC='temperatura', PARTITIONS=10, VALUE_FORMAT='JSON')
 ```
 - Ver streams: ```show streams;```
 
