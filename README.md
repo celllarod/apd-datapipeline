@@ -1,4 +1,4 @@
-# Crear entorno mediante docker
+# Crear entorno mediante Docker
 ```
 sudo docker compose up
 ```
