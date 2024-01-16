@@ -93,6 +93,7 @@ Para ponder usar ```Elasticsearch Connector``` será muy importante tenerlo inst
 ```sh
 confluent-hub install --no-prompt confluentinc/kafka-connect-elasticsearch:11.0.1
 ```
+Repositorio de conectores de Confluent: [Confluent Hub](https://www.confluent.io/hub/?utm_medium=sem&utm_source=google&utm_campaign=ch.sem_br.brand_tp.prs_tgt.confluent-brand_mt.mbm_rgn.emea_lng.eng_dv.all_con.confluent-hub&utm_term=%2Bconfluent%20%2Bhub&creative=&device=c&placement=&gad_source=1&gclid=CjwKCAiA75itBhA6EiwAkho9ezjJsYhIJF5xElmRRmuf6wwkbUqg4mvRZK-Atr4SWdM2L7GI9-T9jRoCpWIQAvD_BwE)
 - Ver estado (debe ser 1/1):
  ```
  show connectors;
