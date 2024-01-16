@@ -1,3 +1,14 @@
+# Crear entorno mediante docker
+```
+sudo docker compose up
+```
+** Notas **:
+- Dado que el entorno consiste en un gran número de contenedores, la primera vez que se ejecute, será necesario descargar todas las imágenes, por lo que se espera que el proceso tome un tiempo considerable.
+- Es recomendable eliminar contenedores que no estamos usando previamente para mantener limpio el entorno y evitar posibles conflictos. Para eliminar todos los contenedores detenidos, podemos usar: 
+```
+sudo docker container prune
+```
+- 
 # Exportar datos a ElasticSearch usando KSQLDB
 - Desde ksql:
 ```
