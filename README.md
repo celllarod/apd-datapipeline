@@ -54,6 +54,7 @@ Aunque todo lo que se va a explicar a continuación se puede ver y realizar a tr
 - Ejecutar shell del contenedor **ksqldb-server**:
 ```
 sudo docker exec -it ksqldb-server /bin/bash
+```
 -  Iniciar el cliente ksql, que permite escribir y ejecutar consultas SQL-like para procesar eventos en tiempo real. 
 ```
 ksql
