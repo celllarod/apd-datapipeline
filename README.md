@@ -60,8 +60,8 @@ Para que los datos que se insertarán posteriormente en ElasticSearch desde Conf
     }
 }
 ```
-Para ello, se crea un index **localizacion** que mapeará el atributo **location** de los datos entrantes al formato deseado.
-```
+Para ello, se crea un index **localizacion** que mapeará el atributo **location** de los datos entrantes al formato deseado desde: [ElasticSearch&Kibana](http://localhost:5601) ```Management>Dev Tools```
+``` sql
 PUT localizacion
 {
   "mappings": {
@@ -73,7 +73,7 @@ PUT localizacion
   }
 }
 ```
-# Exportar de Confluent Kafka datos a ElasticSearch usando KSQLDB y kafka-connect
+# Exportar datos de Confluent Kafka a ElasticSearch usando KSQLDB y kafka-connect
 Aunque todo lo que se va a explicar a continuación se puede ver y realizar a través de la interfaz gráfica de la plataforma de Confluent, se ha optado por realizarlo mediante línea de comandos desde el interior del contenedor **ksqldb-server**.
 - Ejecutar shell del contenedor **ksqldb-server**:
 ```
@@ -89,7 +89,7 @@ show topics;
 ```
 - Crear STREAM que se exportará a ElasticSearch
 
-``` 
+```sql
 CREATE STREAM PRUEBA (id VARCHAR, location STRUCT<lat DOUBLE,long DOUBLE>) WITH (KAFKA_TOPIC='localizacion', VALUE_FORMAT='JSON', PARTITIONS=10);
 ```
 - Ver streams creados:
