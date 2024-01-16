@@ -50,6 +50,29 @@ Lo explicado en este apartado se ha configurado para que se realice de forma aut
 # Confluent Platform
 ## TODO: explicar que es cada cosa, poner capturas
 
+# ElasticSearch 
+Para que los datos que se insertarán posteriormente en ElasticSearch desde Confluent Kafka puedan ser representados en un mapa de coordenadas de Kibana, debemos convertir las coordenadas del JSON de entrada en el formato **geo-point**.
+``` json
+{ "id": 1,
+"location":
+    { "lat": 61.0666922, 
+        "lon": -107.991707
+    }
+}
+```
+Para ello, se crea un index **localizacion** que mapeará el atributo **location** de los datos entrantes al formato deseado.
+```
+PUT localizacion
+{
+  "mappings": {
+    "properties": {
+      "location": {
+        "type": "geo_point"
+      }
+    }
+  }
+}
+```
 # Exportar de Confluent Kafka datos a ElasticSearch usando KSQLDB y kafka-connect
 Aunque todo lo que se va a explicar a continuación se puede ver y realizar a través de la interfaz gráfica de la plataforma de Confluent, se ha optado por realizarlo mediante línea de comandos desde el interior del contenedor **ksqldb-server**.
 - Ejecutar shell del contenedor **ksqldb-server**:
@@ -69,7 +92,7 @@ show topics;
 ``` 
 CREATE STREAM PRUEBA (id VARCHAR, location STRUCT<lat DOUBLE,long DOUBLE>) WITH (KAFKA_TOPIC='localizacion', VALUE_FORMAT='JSON', PARTITIONS=10);
 ```
-- Ver streams:
+- Ver streams creados:
 ```
 show streams;
 ```
@@ -84,7 +107,7 @@ CREATE SINK CONNECTOR SINK_ELASTIC_PRUEBA WITH (
   'value.converter.schemas.enable' = 'false',
   'type.name'               = '_doc',
   'topics'                  = 'temperatura',
-  'key.ignore'              = 'true',
+  'key.ignore'              = 'false',
   'schema.ignore'           = 'true'
 );
 ```
