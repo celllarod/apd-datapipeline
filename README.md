@@ -8,7 +8,13 @@ sudo docker compose up
 ```
 sudo docker container prune
 ```
-- 
+
+Una vez levantados todos los cotenedores, podremos acceder a las interfaces gráficas de los mismos mediante las siguientes URLs:
+- [Node-RED](http://localhost:1880)
+- [HiveMQ](http://localhost:8001) (**usuario:** admin, **contraseña:** hivemq)
+- [Confluent Platform](http://localhost:9021)
+- [ElasticSearch&Kibana](http://localhost:5601)
+
 # Exportar datos a ElasticSearch usando KSQLDB
 - Desde ksql:
 ```
