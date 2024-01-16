@@ -15,6 +15,38 @@ Una vez levantados todos los cotenedores, podremos acceder a las interfaces grá
 - [Confluent Platform](http://localhost:9021)
 - [ElasticSearch&Kibana](http://localhost:5601)
 
+# Node-RED
+
+# HiveMQ
+El bróker de HiveMQ será el que reciba los datos de los sensores mediante MQTT. El objetivo es que estos datos sean exportados a la plataforma de Confluent Kafka. Para ello, deberemos:
+- Habilitar la extension que permite exportar datos a Kakfa: ```hivemq-kafka-extension``` eliminando el archivo DISABLED ubicado en ```/opt/hivemq-4.24.0/extensions/hivemq-kafka-extension````
+- Crear un archivo de configuración denominado ```kafka-configuration.xml``` para definir el **cluster de kafka** y el mapeo del topic **/localizacion** a Kafka:
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<kafka-configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                     xsi:noNamespaceSchemaLocation="config.xsd">
+    <kafka-clusters>
+        <kafka-cluster>
+            <id>cluster01</id>
+            <bootstrap-servers>broker:29092</bootstrap-servers>
+        </kafka-cluster>
+    </kafka-clusters>
+    <mqtt-to-kafka-mappings>
+        <mqtt-to-kafka-mapping>
+            <id>mapping01</id>
+            <cluster-id>cluster01</cluster-id>
+            <mqtt-topic-filters>
+                <mqtt-topic-filter>localizacion</mqtt-topic-filter>
+            </mqtt-topic-filters>
+            <kafka-topic>localizacion</kafka-topic>
+        </mqtt-to-kafka-mapping>
+    </mqtt-to-kafka-mappings>
+</kafka-configuration>
+```
+**Nota**:
+Lo explicado en este apartado se ha configurado para que se realice de forma automática a la hora de crear la imagen y el contenedor de hivemq. Si se deseara cambiar la configuración de la extensión de Kafka para, por ejemplo, mapear nuevos topics, únicamente habría que editar el archivo de configuración ubicado este repositorio en ```hivemq/kafka-configuration.xml```
+
+
 # Exportar datos a ElasticSearch usando KSQLDB
 - Desde ksql:
 ```
