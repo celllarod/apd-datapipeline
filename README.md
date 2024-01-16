@@ -46,21 +46,26 @@ El bróker de HiveMQ será el que reciba los datos de los sensores mediante MQTT
 **Nota**:
 Lo explicado en este apartado se ha configurado para que se realice de forma automática a la hora de crear la imagen y el contenedor de hivemq. Si se deseara cambiar la configuración de la extensión de Kafka para, por ejemplo, mapear nuevos topics, únicamente habría que editar el archivo de configuración ubicado este repositorio en ```hivemq/kafka-configuration.xml```
 
+# Confluent Platform
+## TODO: explicar que es cada cosa, poner capturas
 
-# Exportar datos a ElasticSearch usando KSQLDB
-- Desde ksql:
+# Exportar de Confluent Kafka datos a ElasticSearch usando KSQLDB y kafka-connect
+Aunque todo lo que se va a explicar a continuación se puede ver y realizar a través de la interfaz gráfica de la plataforma de Confluent, se ha optado por realizarlo mediante línea de comandos desde el interior del contenedor **ksqldb-server**.
+- Ejecutar shell del contenedor **ksqldb-server**:
 ```
 sudo docker exec -it ksqldb-server /bin/bash
+-  Iniciar el cliente ksql, que permite escribir y ejecutar consultas SQL-like para procesar eventos en tiempo real. 
+```
 ksql
 ```
-- Ver topics
+- Ver topics existentes en el entorno de Kafka:
 ```
 show topics;
 ```
 - Crear STREAM que se exportará a ElasticSearch
 
 ``` 
-CREATE STREAM PRUEBA (COL1 INT) WITH (KAFKA_TOPIC='temperatura', PARTITIONS=10, VALUE_FORMAT='JSON');
+CREATE STREAM PRUEBA (id VARCHAR, location STRUCT<lat DOUBLE,long DOUBLE>) WITH (KAFKA_TOPIC='localizacion', VALUE_FORMAT='JSON', PARTITIONS=10);
 ```
 - Ver streams:
 ```
