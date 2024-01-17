@@ -60,7 +60,7 @@ Para que los datos que se insertarán posteriormente en ElasticSearch desde Conf
     }
 }
 ```
-Para ello, se crea un index **localizacion** que mapeará el atributo **location** de los datos entrantes al formato deseado desde: [ElasticSearch&Kibana](http://localhost:5601) ```Management>Dev Tools```
+1) Para ello, se crea un index **localizacion** que mapeará el atributo **location** de los datos entrantes al formato deseado desde: [ElasticSearch&Kibana](http://localhost:5601) ```Management>Dev Tools```
 ``` sql
 PUT localizacion
 {
@@ -73,6 +73,9 @@ PUT localizacion
   }
 }
 ```
+2) Se debe crear un **index_pattern** ```localizacion``` para que se aplique el mapeo anterior.
+```Kibana>Index_pattens>Create Index pattern>``` -> Nombre: localizacion
+
 # Exportar datos de Confluent Kafka a ElasticSearch usando KSQLDB y kafka-connect
 Aunque todo lo que se va a explicar a continuación se puede ver y realizar a través de la interfaz gráfica de la plataforma de Confluent, se ha optado por realizarlo mediante línea de comandos desde el interior del contenedor **ksqldb-server**.
 - Ejecutar shell del contenedor **ksqldb-server**:
@@ -90,23 +93,22 @@ show topics;
 - Crear STREAM que se exportará a ElasticSearch
 
 ```sql
-CREATE STREAM PRUEBA (id VARCHAR, location STRUCT<lat DOUBLE,long DOUBLE>) WITH (KAFKA_TOPIC='localizacion', VALUE_FORMAT='JSON', PARTITIONS=10);
+CREATE STREAM LOCALIZACION_STREAM (id VARCHAR, location STRUCT<lat DOUBLE,lon DOUBLE>) WITH (KAFKA_TOPIC='localizacion', VALUE_FORMAT='JSON', PARTITIONS=10);
 ```
 - Ver streams creados:
 ```
 show streams;
 ```
-
 - Crear connector para enviar stream a ElasticSearch (Para ID automatico: key.ignore='true', sino: false)
-```
-CREATE SINK CONNECTOR SINK_ELASTIC_PRUEBA WITH (
+```sql
+CREATE SINK CONNECTOR SINK_ELASTIC_LOCALIZACION WITH (
   'connector.class'         = 'io.confluent.connect.elasticsearch.ElasticsearchSinkConnector',
   'connection.url'          = 'http://elasticsearch:9200',
   'key.converter'           = 'org.apache.kafka.connect.storage.StringConverter',
   'value.converter'         = 'org.apache.kafka.connect.json.JsonConverter',
   'value.converter.schemas.enable' = 'false',
   'type.name'               = '_doc',
-  'topics'                  = 'temperatura',
+  'topics'                  = 'localizacion',
   'key.ignore'              = 'false',
   'schema.ignore'           = 'true'
 );
@@ -121,32 +123,26 @@ Repositorio de conectores de Confluent: [Confluent Hub](https://www.confluent.io
  ```
  show connectors;
  ```
-``` 
-DESCRIBE CONNECTOR SINK_ELASTIC_PRUEBA;
+```sql
+DESCRIBE CONNECTOR SINK_ELASTIC_LOCALIZACION;
 ```
-
-
  Si error, para ver qué pasa:
  ```
  docker compose logs -f connect
  ```
-
-Para borrar:
+Para borrar connector:
 ```
-DROP CONNECTOR SINK_ELASTIC_PRUEBA;
-```
-
-- Ver Datos en ElasticSearch (no me va)
-```
-docker compose exec elasticsearch curl -s http://localhost:9200/PRUEBA/_search -H 'content-type: application/json' -d '{ "size": 42  }' | jq -c '.hits.hits[]'
+DROP CONNECTOR SINK_ELASTIC_LOCALIZACION;
 ```
 
 # Representar datos en Kibana, ElasticSearch
-- Crear index
-- Kivana>Management>Dev Tools:
+- Comprobar que se están recibiendo los datos
 ```
 GET temperatura/_search
 ```
+- Crear mapa para representar coordenadas:
+    -  Dashboard>Create Panel>Maps>
+    - Add Layer>Documents>Index patterns -> localizacion
 
 # Referencias
 - Exportar datos ElasticSearch:
