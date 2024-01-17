@@ -93,7 +93,7 @@ show topics;
 - Crear STREAM que se exportará a ElasticSearch
 
 ```sql
-CREATE STREAM LOCALIZACION_STREAM (id VARCHAR, location STRUCT<lat DOUBLE,lon DOUBLE>) WITH (KAFKA_TOPIC='localizacion', VALUE_FORMAT='JSON', PARTITIONS=10);
+CREATE STREAM LOCALIZACION_STREAM (id INT, location STRUCT<lat DOUBLE,lon DOUBLE>) WITH (KAFKA_TOPIC='localizacion', VALUE_FORMAT='JSON', PARTITIONS=10);
 ```
 - Ver streams creados:
 ```
