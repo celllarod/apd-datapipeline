@@ -109,7 +109,7 @@ CREATE SINK CONNECTOR SINK_ELASTIC_LOCALIZACION WITH (
   'value.converter.schemas.enable' = 'false',
   'type.name'               = '_doc',
   'topics'                  = 'localizacion',
-  'key.ignore'              = 'false',
+  'key.ignore'              = 'true',
   'schema.ignore'           = 'true'
 );
 ```
