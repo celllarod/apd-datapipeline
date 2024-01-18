@@ -17,6 +17,11 @@ Una vez levantados todos los cotenedores, podremos acceder a las interfaces grá
 - [ElasticSearch&Kibana](http://localhost:5601)
 
 # Node-RED
+Node-RED es una herramienta de desarrollo basada en flujo para programación visual desarrollada originalmente por IBM para conectar dispositivos de hardware, API y servicios en línea como parte de la Internet de las cosas. Proporciona un editor de flujo basado en navegador web, que se puede utilizar para crear funciones de JavaScript. Los elementos de las aplicaciones se pueden guardar o compartir para su reutilización. El tiempo de ejecución se basa en Node.js. Los flujos creados en Node-RED se almacenan mediante JSON.
+
+Se ha elegido esta plataforma para simular los dispositivos fisicos que serían los encargados de tomar y transmitir las coordenadas de localización. Se han creado 5 bloques pertenecientes a 5 paises diferentes y se ha unido a un bloque transmisor mediante mqtt, al que se le ha configurado los parametros necesarios (IP, puerto y QoS) para establecer la comunicación con el broker HiveMQ. Para facilitar el debug, se ha añadido un bloque receptor de mensajes mqtt conectado tambien al broker para visualizar los mensajes. 
+
+El flow de Node-RED ha sido guardado en un volumen de docker para facilitar el despliegue.
 
 # HiveMQ
 El bróker de HiveMQ será el que reciba los datos de los sensores mediante MQTT. El objetivo es que estos datos sean exportados a la plataforma de Confluent Kafka. Para ello, deberemos:
@@ -48,7 +53,59 @@ El bróker de HiveMQ será el que reciba los datos de los sensores mediante MQTT
 Lo explicado en este apartado se ha configurado para que se realice de forma automática a la hora de crear la imagen y el contenedor de hivemq. Si se deseara cambiar la configuración de la extensión de Kafka para, por ejemplo, mapear nuevos topics, únicamente habría que editar el archivo de configuración ubicado este repositorio en ```hivemq/kafka-configuration.xml```
 
 # Confluent Platform
-## TODO: explicar que es cada cosa, poner capturas
+<p align="justify">
+Se trata de una plataforma de streaming basada en Apache Kafka cuyo objetivo es ayudar a los diferentes roles en la organización en los proyectos de intercambio de información en tiempo real. Para ello, desde un punto de vista de arquitectura tecnológica, mejora las capacidades nativas base de Apache Kafka en las siguientes perspectivas:
+</p>
+
+   - Capacidades de Streaming Enterprise
+   - Conectividad y Gobierno del Dato
+   - Procesamiento Avanzado
+   - Monitorización y Gestión
+   - Seguridad
+   - Arquitecturas MultiSite y Apoyo en la evolución hacia el Cloud
+
+### Confluent Server
+
+El componente central de la arquitectura es el *Confluent Server* (contenedor **broker** en nuestro docker compose). Este componente, utilizando la tecnología de Apache Kafka, va a establecer el núcleo de coordinación de gestión de eventos en tiempo real.
+
+Es capaz de:
+
+   - Integrar fuentes productoras y consumidoras de eventos de diferente naturaleza
+   - Gestionar las capacidades Real Time para transporte de altos volúmenes de datos (Megabytes por segundo)
+   - Garantizar la resiliencia, escalabilidad y secuencialidad en la transferencia de eventos.
+   - Colaborar con el resto de los componentes de arquitectura para la gestión de los metadatos, la distribución de carga dentro del clúster.
+
+### Confluent Connect y Schema Registry
+<p align="justify">
+Confluent Platform simplifica la conectividad con productores y consumidores de información mediante un conjunto de más de 200 conectores pre-construidos soportados y verificados que acortan el tiempo de despliegue de la plataforma y garantizan su funcionamiento.
+</p>
+<p align="justify">
+La solución de ingesta está basada en Kafka Connect y los Conectores Desarrollados/Verificados por Confluent. Estos conectores son aplicaciones desarrolladas y mantenidas por Confluent que facilitan la lectura y escritura de sistemas terceros más habitualmente utilizados como Flume, S3, Splunk, HDFS, Oracle, ficheros, SAP Hana, Snowflake, MongoDB, IBM MQ, Mainframe… (más de 200).
+</p>
+
+La ingesta de eventos está integrada con otro de los componentes de Confluent Platform, *Confluent Schema Registry*, repositorio inteligente de esquemas compatible con Avro, JSON y Protobuf, que permite la validación de mensajes mejorando el desacople de productor/consumidor incorporando la capacidad de establecer “contratos” (estructuras pactadas) entre los mismos. Estos servicios se pueden encontrar en el docker compose bajo el nombre de **schema registry y connect**
+
+
+### Confluent ksqlDB
+
+Confluent Platform aporta capacidades avanzadas de transformación de la información en vuelo gestionada durante su transporte. Para ello, mejora la capacidad base de Apache Kafka basada en desarrollo de código de transformación, proponiendo el uso del componente **Confluent ksqlDB** como motor de transformación, filtrado y enriquecimiento durante el transporte de la información. Confluent ksqlDB es un módulo para diseñar transformaciones en la información durante su transporte. Su utilización está al alcance a todos los usuarios gracias al uso de lenguaje **SQL**.
+
+
+### Confluent Control Center
+
+Por último, **Confluent Control Center** como herramienta única de gestión y monitorización del sistema de Streaming en Tiempo Real. A través de él se dispone de una única aplicación web donde gestionar y monitorizar todos los aspectos relativos al despliegue de Confluent Platform, tanto en escenarios diseñados con clústeres únicos como en escenarios multicluster on-prem, SaaS o híbridos.
+
+
+Utilizando todos los servicios mencionado anteriormente, en este trabajo se han seguido los siguientes pasos:
+
+1) Crear el topic (localizacion) que recibirá los mensajes a traves de HiveMQ.
+2) Creación del stream de datos en ksql (*Se explica detalladamente en el apartado Exportar datos de Confluent Kafka a ElasticSearch usando KSQLDB y kafka-connect*)
+3) Realizar la instalación dentro del contenedor connect la extensión para Elasticsearch (https://www.confluent.io/hub/confluentinc/kafka-connect-elasticsearch), esta instalización se hace de forma automática añadiendo los comandos necesarios en el fichero docker compose.
+4) Entrar en el apartado connect de Confluent Control Center y realizar la configuración añadiendo la url de elasticsearch.
+
+**Nota**
+Se puede encontrar mas documentación sobre la plataforma en https://www.confluent.io/apache-kafka-vs-confluent/
+
 
 # ElasticSearch 
 Para que los datos que se insertarán posteriormente en ElasticSearch desde Confluent Kafka puedan ser representados en un mapa de coordenadas de Kibana, debemos convertir las coordenadas del JSON de entrada en el formato **geo-point**.
