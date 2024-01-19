@@ -110,7 +110,7 @@ Se puede encontrar mas documentación sobre la plataforma en https://www.conflue
 # ElasticSearch 
 Para que los datos que se insertarán posteriormente en ElasticSearch desde Confluent Kafka puedan ser representados en un mapa de coordenadas de Kibana, debemos convertir las coordenadas del JSON de entrada en el formato **geo-point**.
 ``` json
-{ "id": 1,
+{ "identificacion": 1,
 "location":
     { "lat": 61.0666922, 
         "lon": -107.991707
@@ -150,7 +150,7 @@ show topics;
 - Crear STREAM que se exportará a ElasticSearch
 
 ```sql
-CREATE STREAM LOCALIZACION_STREAM (id VARCHAR, location STRUCT<lat DOUBLE,lon DOUBLE>) WITH (KAFKA_TOPIC='localizacion', VALUE_FORMAT='JSON', PARTITIONS=10);
+CREATE STREAM LOCALIZACION_STREAM (identificacion VARCHAR, location STRUCT<lat DOUBLE,lon DOUBLE>) WITH (KAFKA_TOPIC='localizacion', VALUE_FORMAT='JSON', PARTITIONS=10);
 ```
 - Ver streams creados:
 ```
