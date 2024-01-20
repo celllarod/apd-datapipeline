@@ -202,6 +202,10 @@ GET temperatura/_search
     - Add Layer>Documents>Index patterns -> localizacion
 
 # Referencias
+- Instalar plataforma de COnfluent mediante Docker
+
+https://docs.confluent.io/platform/current/installation/docker/installation.html
+
 - Exportar datos ElasticSearch:
 
 https://www.youtube.com/watch?v=Cq-2eGxOCc8
