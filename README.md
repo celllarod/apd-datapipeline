@@ -110,7 +110,8 @@ Se puede encontrar mas documentación sobre la plataforma en https://www.conflue
 # ElasticSearch 
 Para que los datos que se insertarán posteriormente en ElasticSearch desde Confluent Kafka puedan ser representados en un mapa de coordenadas de Kibana, debemos convertir las coordenadas del JSON de entrada en el formato **geo-point**.
 ``` json
-{ "identificacion": 1,
+{
+"identificacion": "1",
 "location":
     { "lat": 61.0666922, 
         "lon": -107.991707
