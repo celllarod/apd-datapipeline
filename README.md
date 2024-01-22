@@ -9,6 +9,7 @@ sudo docker compose up
 ```
 sudo docker container prune
 ```
+<img width="182" alt="image" src="https://github.com/celllarod/apd-datapipeline/assets/59287155/accf4456-9f4e-4c22-9f91-d53e32f7f3c5">
 
 Una vez levantados todos los cotenedores, podremos acceder a las interfaces gráficas de los mismos mediante las siguientes URLs:
 - [Node-RED](http://localhost:1880)
