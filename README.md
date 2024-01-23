@@ -93,9 +93,7 @@ Es capaz de:
    - Colaborar con el resto de los componentes de arquitectura para la gestión de los metadatos, la distribución de carga dentro del clúster.
 
 ### Confluent Connect y Schema Registry
-<p align="justify">
 Confluent Platform simplifica la conectividad con productores y consumidores de información mediante un conjunto de más de 200 conectores pre-construidos soportados y verificados que acortan el tiempo de despliegue de la plataforma y garantizan su funcionamiento. Estos conectores son aplicaciones desarrolladas y mantenidas por Confluent que facilitan la lectura y escritura de sistemas terceros más habitualmente utilizados como Flume, S3, Splunk, HDFS, Oracle, ficheros, SAP Hana, Snowflake, MongoDB, IBM MQ, Mainframe… (más de 200).
-</p>
 
 La ingesta de eventos está integrada con otro de los componentes de Confluent Platform, *Confluent Schema Registry*, repositorio inteligente de esquemas compatible con Avro, JSON y Protobuf, que permite la validación de mensajes mejorando el desacople de productor/consumidor incorporando la capacidad de establecer “schemas” (estructuras pactadas) entre los mismos. Estos servicios se pueden encontrar en el docker compose bajo el nombre de **schema registry y connect**
 
