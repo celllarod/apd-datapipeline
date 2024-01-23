@@ -10,7 +10,7 @@
     {
         "id": "eb0df83850115fdb",
         "type": "mqtt-broker",
-        "name": "broker mosquitto",
+        "name": "broker HiveMQ",
         "broker": "hivemq",
         "port": "1883",
         "clientid": "",
@@ -52,8 +52,8 @@
         "correl": "",
         "expiry": "",
         "broker": "eb0df83850115fdb",
-        "x": 550,
-        "y": 220,
+        "x": 410,
+        "y": 200,
         "wires": []
     },
     {
@@ -69,8 +69,8 @@
         "rap": true,
         "rh": 0,
         "inputs": 0,
-        "x": 890,
-        "y": 220,
+        "x": 730,
+        "y": 200,
         "wires": [
             [
                 "9b67db694ad3f73e"
@@ -81,7 +81,7 @@
         "id": "04417c66b0e8e612",
         "type": "inject",
         "z": "fba9ad2327681afb",
-        "name": "Canada",
+        "name": "D1- [Canada]",
         "props": [
             {
                 "p": "payload"
@@ -91,19 +91,17 @@
                 "vt": "str"
             }
         ],
-        "repeat": "4",
+        "repeat": "30",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "{ \"id\": \"1\", \"location\": { \"lat\": 61.0666922,     \"lon\": -107.991707} }",
+        "payload": "{ \"identificacion\": \"1\", \"location\": { \"lat\": 61.0666922,     \"lon\": -107.991707} }",
         "payloadType": "json",
-        "x": 100,
+        "x": 120,
         "y": 100,
         "wires": [
-            [
-                "02c374b76fc670e6"
-            ]
+            []
         ]
     },
     {
@@ -119,15 +117,15 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1100,
-        "y": 220,
+        "x": 940,
+        "y": 200,
         "wires": []
     },
     {
         "id": "261d1f024e34364f",
         "type": "inject",
         "z": "fba9ad2327681afb",
-        "name": "España",
+        "name": "D2-[España]",
         "props": [
             {
                 "p": "payload"
@@ -137,26 +135,24 @@
                 "vt": "str"
             }
         ],
-        "repeat": "4",
+        "repeat": "50",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "{ \"id\": \"2\", \"location\": {     \"lat\": 39.3260685,     \"lon\": -4.8379791 } }",
+        "payload": "{ \"identificacion\": \"2\", \"location\": {     \"lat\": 39.3260685,     \"lon\": -4.8379791 } }",
         "payloadType": "json",
-        "x": 100,
+        "x": 120,
         "y": 160,
         "wires": [
-            [
-                "02c374b76fc670e6"
-            ]
+            []
         ]
     },
     {
         "id": "cf639ca48088e264",
         "type": "inject",
         "z": "fba9ad2327681afb",
-        "name": "Noruega",
+        "name": "D3-[Noruega]",
         "props": [
             {
                 "p": "payload"
@@ -166,26 +162,24 @@
                 "vt": "str"
             }
         ],
-        "repeat": "4",
+        "repeat": "30",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "{ \"id\": \"3\", \"location\": {     \"lat\": 61.1529386,     \"lon\": 8.7876653  } }",
+        "payload": "{ \"identificacion\": \"3\", \"location\": {     \"lat\": 61.1529386,     \"lon\": 8.7876653  } }",
         "payloadType": "json",
-        "x": 100,
+        "x": 120,
         "y": 220,
         "wires": [
-            [
-                "02c374b76fc670e6"
-            ]
+            []
         ]
     },
     {
         "id": "c4033a7138bf766f",
         "type": "inject",
         "z": "fba9ad2327681afb",
-        "name": "Francia",
+        "name": "D4-[Francia]",
         "props": [
             {
                 "p": "payload"
@@ -195,19 +189,17 @@
                 "vt": "str"
             }
         ],
-        "repeat": "8",
+        "repeat": "35",
         "crontab": "",
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "payload": "{ \"id\": \"4\", \"location\": {     \"lat\": 46.603354,    \"lon\": 1.8883335  } }",
+        "payload": "{ \"identificacion\": \"4\", \"location\": {     \"lat\": 46.603354,    \"lon\": 1.8883335  } }",
         "payloadType": "json",
-        "x": 100,
+        "x": 120,
         "y": 280,
         "wires": [
-            [
-                "02c374b76fc670e6"
-            ]
+            []
         ]
     },
     {
@@ -226,8 +218,8 @@
         "z": "fba9ad2327681afb",
         "name": "Publicación MQTT - topic: localizacion",
         "info": "",
-        "x": 550,
-        "y": 160,
+        "x": 470,
+        "y": 100,
         "wires": []
     },
     {
@@ -236,8 +228,45 @@
         "z": "fba9ad2327681afb",
         "name": "Subscripción a topic /localización (para debug)",
         "info": "",
-        "x": 990,
-        "y": 160,
+        "x": 830,
+        "y": 140,
         "wires": []
+    },
+    {
+        "id": "a90b2ed11e62b277",
+        "type": "comment",
+        "z": "fba9ad2327681afb",
+        "name": "broker: hivemq:1883",
+        "info": "",
+        "x": 410,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "270f2d38a9ed7daf",
+        "type": "inject",
+        "z": "fba9ad2327681afb",
+        "name": "D4-[Francia]",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "35",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "{\"identificacion\":\"4\",\"location\":{\"lat\":-26.5847,\"lon\":90.4249}}",
+        "payloadType": "json",
+        "x": 140,
+        "y": 460,
+        "wires": [
+            []
+        ]
     }
 ]
