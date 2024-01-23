@@ -152,7 +152,7 @@ PUT localizacion
 A continuación, se debe crear un **index_pattern** para ```localizacion``` con el fin de poder representar el índice en Kibana posteriormente.
 ```Kibana>Index_pattens>Create Index pattern>``` -> Nombre: localizacion
 
-# Exportar datos de Confluent Kafka a ElasticSearch usando KSQLDB y kafka-connect
+## Exportar datos de Confluent Kafka a ElasticSearch usando KSQLDB y kafka-connect
 Aunque todo lo que se va a explicar a continuación se puede ver y realizar a través de la interfaz de usuario de la plataforma de Confluent, se ha optado por realizarlo mediante línea de comandos desde el interior del contenedor **ksqldb-server**.
 - Ejecutar shell del contenedor **ksqldb-server**:
 ```
@@ -211,7 +211,7 @@ Para borrar connector:
 DROP CONNECTOR SINK_ELASTIC_LOCALIZACION;
 ```
 
-# Representar datos en Kibana, ElasticSearch
+## Representar datos en Kibana, ElasticSearch
 - Comprobar que se están recibiendo los datos
 ```
 GET temperatura/_search
